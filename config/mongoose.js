@@ -1,26 +1,10 @@
-const mongoose = require("mongoose");
+// Import the mongoose module
+const mongoose = require('mongoose');
+const dotenv = require('dotenv').config();
 
-// Connect to the MongoDB database using mongoose.connect() method and specify the database URL and options
-mongoose.connect(
-  "mongodb+srv://username:<password>@cluster0.qtpj1gg.mongodb.net/?retryWrites=true&w=majority",
-  {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  }
-);
+//Set up default mongoose connection
+var mongoDB = process.env.MONGODB_URL;
+module.exports = mongoose.connect(mongoDB, { useNewUrlParser: true, useUnifiedTopology: true }).then(() => console.log("CONNECTION ESTABLISHED"));
 
-// Store the default connection in a variable named db
-const db = mongoose.connection;
 
-// Listen for any errors that may occur in the database connection and log them to the console
-db.on("error", (error) => {
-  console.error("MongoDB connection error:", error);
-});
 
-// Once the connection is established, log a message to the console indicating the successful connection
-db.once("open", () => {
-  console.log("MongoDB connected");
-});
-
-// Export the db object for use in other files
-module.exports = db;
